@@ -37,6 +37,8 @@ namespace MichaelTCC.Fragments
             txtPort= view.FindViewById<EditText>(Resource.Id.edtPort);
             btnSave = view.FindViewById<Button>(Resource.Id.btnSave);
 
+            UpdateConfig();
+
             return view;
         }
 

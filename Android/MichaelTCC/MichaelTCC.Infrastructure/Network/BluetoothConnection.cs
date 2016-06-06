@@ -66,7 +66,7 @@ namespace MichaelTCC.Infrastructure.Network
             _bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
             if (_bluetoothAdapter != null)
             {
-                returing = false;
+                returing = true;
                 if (!_bluetoothAdapter.IsEnabled)
                     _bluetoothAdapter.Enable();
             }

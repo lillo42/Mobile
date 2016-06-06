@@ -11,7 +11,7 @@ namespace MichaelTCC.Domain.Network
         private static object locker = new object();
         public TcpServerNetwork TcpConnection { get; private set; }
         public BluetoothConnection BluetoothConnection { get; private set; }
-        private const string JOYSTICK_NAME = "MOCUTE-032_B52-CA7E";
+        private const string JOYSTICK_NAME = "MOCUTE-032_B53-B3A1";
         private static UUID JOYSTICK_UUID = UUID.FromString("00001124-0000-1000-8000-00805f9b34fb");
 
         public static NetworkColletion Instance

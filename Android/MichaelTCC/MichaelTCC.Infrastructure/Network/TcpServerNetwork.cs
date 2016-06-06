@@ -87,8 +87,11 @@ namespace MichaelTCC.Infrastructure.Network
         {
             if(dispose)
             {
-                Server.Shutdown(SocketShutdown.Both);
-                Server.Close();
+                if (Active && Server != null && _tcpClient != null)
+                {
+                    Server.Shutdown(SocketShutdown.Both);
+                    Server.Close();
+                }
             }
         }
     }
