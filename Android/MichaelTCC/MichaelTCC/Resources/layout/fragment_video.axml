@@ -14,10 +14,10 @@
         p1:id="@+id/llhHalf1"
         p1:minWidth="25px"
         p1:minHeight="25px">
-        <VideoView
+        <WebView
             p1:layout_width="fill_parent"
             p1:layout_height="fill_parent"
-            p1:id="@+id/videoView1" />
+            p1:id="@+id/webView1" />
     </LinearLayout>
 <!--<LinearLayout
         p1:orientation="horizontal"

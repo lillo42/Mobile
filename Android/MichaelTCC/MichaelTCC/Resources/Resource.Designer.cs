@@ -127,7 +127,7 @@ namespace MichaelTCC
 			public const int txtUrl = 2131099651;
 			
 			// aapt resource value: 0x7f06000e
-			public const int videoView1 = 2131099662;
+			public const int webView1 = 2131099662;
 			
 			static Id()
 			{

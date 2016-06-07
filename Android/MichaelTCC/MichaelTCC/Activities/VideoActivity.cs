@@ -10,6 +10,7 @@ using Android.Views;
 using System.Threading;
 using MichaelTCC.Domain.DTO;
 using MichaelTCC.Domain;
+using Android.Webkit;
 
 namespace MichaelTCC.Activities
 {
@@ -39,7 +40,7 @@ namespace MichaelTCC.Activities
                         returining.Right = (_direction.HasValue && _direction == Keycode.DpadUp);
                         returining.Down = (_direction.HasValue && _direction == Keycode.DpadRight);
                     }
-                    
+
 
                     if (Math.Abs(_lastUpdateCommand.Subtract(DateTime.Now).TotalMilliseconds) < 10)
                     {
@@ -83,16 +84,10 @@ namespace MichaelTCC.Activities
 
             if (!string.IsNullOrEmpty(_url))
             {
-                var uri = Android.Net.Uri.Parse(_url);
-
-                var v1 = FindViewById<VideoView>(Resource.Id.videoView1);
-                v1.SetVideoURI(uri);
-
-                //var v2 = FindViewById<VideoView>(Resource.Id.videoView2);
-                //v2.SetVideoURI(uri);
-
-                v1.Start();
-                //v2.Start();
+                var v1 = FindViewById<WebView>(Resource.Id.webView1);
+                v1.Settings.JavaScriptEnabled = true;
+                v1.Settings.LoadsImagesAutomatically = true;
+                v1.LoadUrl(_url);
             }
         }
 
