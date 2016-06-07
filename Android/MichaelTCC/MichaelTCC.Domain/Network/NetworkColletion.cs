@@ -10,9 +10,6 @@ namespace MichaelTCC.Domain.Network
         private static NetworkColletion _instance;
         private static object locker = new object();
         public TcpServerNetwork TcpConnection { get; private set; }
-        public BluetoothConnection BluetoothConnection { get; private set; }
-        private const string JOYSTICK_NAME = "MOCUTE-032_B53-B3A1";
-        private static UUID JOYSTICK_UUID = UUID.FromString("00001124-0000-1000-8000-00805f9b34fb");
 
         public static NetworkColletion Instance
         {
@@ -34,11 +31,6 @@ namespace MichaelTCC.Domain.Network
         {
             StopConnection();
             TcpConnection = NetworkFactory.CreateTcp(tcpConfiguration.Port);
-        }
-
-        public void CreateBluetooth()
-        {
-            BluetoothConnection = NetworkFactory.CreateBluetooth(JOYSTICK_NAME, JOYSTICK_UUID);
         }
 
         public void StopConnection()

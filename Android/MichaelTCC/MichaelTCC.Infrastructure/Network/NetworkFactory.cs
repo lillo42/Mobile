@@ -11,12 +11,5 @@ namespace MichaelTCC.Infrastructure.Network
             returning.StartListening();
             return returning;
         }
-
-        public static BluetoothConnection CreateBluetooth(string deviceName, UUID uuid)
-        {
-            var returning = new BluetoothConnection(deviceName, UUID.RandomUUID());
-            returning.StartListening();
-            return returning;
-        }
     }
 }

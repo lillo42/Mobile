@@ -40,7 +40,7 @@ namespace MichaelTCC.Domain
         }
 
         public SensorCapture SensorCapture { get; set; }
-        public JoystickCapture JoystickCapture { get; set; }
+        public IJoystickCapture JoystickCapture { get; set; }
         private readonly MichaelProtocolBuilder builder = new MichaelProtocolBuilder();
 
         public void StartServerTcp(ITcpConfigurationDTO tcp)

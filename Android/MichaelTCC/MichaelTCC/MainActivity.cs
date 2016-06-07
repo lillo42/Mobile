@@ -8,6 +8,7 @@ using System;
 using MichaelTCC.Fragments;
 using Android.Content;
 using MichaelTCC.Activities;
+using Android.Runtime;
 
 namespace MichaelTCC
 {
@@ -19,7 +20,6 @@ namespace MichaelTCC
         private NetworkService _networkService;
         private SensorService _sensorService;
         private VideoService _videoService;
-        private JoystickService _joystickService;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -70,8 +70,7 @@ namespace MichaelTCC
         private void CreateMainService()
         {
             _networkService = new NetworkService();
-            _joystickService = new JoystickService(_networkService);
-            _mainService = new MainService(_networkService, _sensorService,_configService, _joystickService);
+            _mainService = new MainService(_networkService, _sensorService,_configService);
             _mainService.OnNotifition += MainService_OnNotifition;
         }
 
@@ -90,7 +89,7 @@ namespace MichaelTCC
         {
             SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
             Sensor sensor = sensorManger.GetDefaultSensor(SensorType.MagneticFieldUncalibrated);
-            _sensorService = new Service.SensorService(sensorManger, sensor);
+            _sensorService = new SensorService(sensorManger, sensor);
         }
         #endregion
     }

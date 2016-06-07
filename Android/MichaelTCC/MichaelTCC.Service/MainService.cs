@@ -10,15 +10,13 @@ namespace MichaelTCC.Service
         private readonly NetworkService _networkService;
         private readonly SensorService _sensorService;
         private readonly ConfigurationService _configService;
-        private readonly JoystickService _joystickService;
         private readonly MichaelProtocolBuilder _builder = new MichaelProtocolBuilder();
 
-        public MainService(NetworkService networkService, SensorService sensorService, ConfigurationService configurationService,JoystickService joystickService)
+        public MainService(NetworkService networkService, SensorService sensorService, ConfigurationService configurationService)
         {
             _networkService = networkService;
             _sensorService = sensorService;
             _configService = configurationService;
-            _joystickService = joystickService;
 
             _networkService.OnNotifition += NetworkService_OnNotifition;
         }
@@ -26,7 +24,6 @@ namespace MichaelTCC.Service
         public void StartServer()
         {
             Core.Instance.SensorCapture = _sensorService.SensorCapture;
-            Core.Instance.JoystickCapture = _joystickService.JoystickCapture;
             Core.Instance.StartServerTcp(_configService.ReadTcp());
         }
 

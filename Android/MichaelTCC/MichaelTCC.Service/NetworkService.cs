@@ -17,12 +17,6 @@ namespace MichaelTCC.Service
             return NetworkColletion.Instance.TcpConnection;
         }
 
-        public BluetoothConnection CreateBluetooth()
-        {
-            NetworkColletion.Instance.CreateBluetooth();
-            return NetworkColletion.Instance.BluetoothConnection;
-        }
-
         private void TcpConnection_OnError(object sender, string e)
         {
             InvokeOnNotifition(e);

@@ -48,7 +48,6 @@
     <Compile Include="DTO\ITcpConfigurationDTO.cs" />
     <Compile Include="DTO\IVideoConfigurationDTO.cs" />
     <Compile Include="Files\TextFile.cs" />
-    <Compile Include="Network\BluetoothConnection.cs" />
     <Compile Include="Network\IConnection.cs" />
     <Compile Include="Network\NetworkFactory.cs" />
     <Compile Include="Network\TcpServerNetwork.cs" />

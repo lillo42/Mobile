@@ -1,8 +1,9 @@
 using MichaelTCC.Infrastructure.DTO;
+using System;
 
 namespace MichaelTCC.Domain.DTO
 {
-    class JoystickDTO : IJoystickDTO
+    public class JoystickDTO : IJoystickDTO, ICloneable
     {
         public bool Up { get; set; }
         public bool Down { get; set; }
@@ -12,5 +13,10 @@ namespace MichaelTCC.Domain.DTO
         public bool X { get; set; }
         public bool A { get; set; }
         public bool Triangle { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }
