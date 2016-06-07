@@ -66,8 +66,8 @@ namespace MichaelTCC
 			// aapt resource value: 0x7f06000b
 			public const int btnSave = 2131099659;
 			
-			// aapt resource value: 0x7f060015
-			public const int btnVideo = 2131099669;
+			// aapt resource value: 0x7f060013
+			public const int btnVideo = 2131099667;
 			
 			// aapt resource value: 0x7f06000a
 			public const int edtPort = 2131099658;
@@ -75,23 +75,20 @@ namespace MichaelTCC
 			// aapt resource value: 0x7f060005
 			public const int edtUrl = 2131099653;
 			
-			// aapt resource value: 0x7f060016
-			public const int frameLayout = 2131099670;
+			// aapt resource value: 0x7f060014
+			public const int frameLayout = 2131099668;
+			
+			// aapt resource value: 0x7f060010
+			public const int linearLayout1 = 2131099664;
+			
+			// aapt resource value: 0x7f060011
+			public const int linearLayout2 = 2131099665;
 			
 			// aapt resource value: 0x7f060012
-			public const int linearLayout1 = 2131099666;
-			
-			// aapt resource value: 0x7f060013
-			public const int linearLayout2 = 2131099667;
-			
-			// aapt resource value: 0x7f060014
-			public const int linearLayout4 = 2131099668;
+			public const int linearLayout4 = 2131099666;
 			
 			// aapt resource value: 0x7f06000d
 			public const int llhHalf1 = 2131099661;
-			
-			// aapt resource value: 0x7f06000f
-			public const int llhHalf2 = 2131099663;
 			
 			// aapt resource value: 0x7f060006
 			public const int llhPort = 2131099654;
@@ -117,11 +114,11 @@ namespace MichaelTCC
 			// aapt resource value: 0x7f060000
 			public const int llvMain = 2131099648;
 			
-			// aapt resource value: 0x7f060017
-			public const int menu = 2131099671;
+			// aapt resource value: 0x7f060015
+			public const int menu = 2131099669;
 			
-			// aapt resource value: 0x7f060011
-			public const int tbPrincipal = 2131099665;
+			// aapt resource value: 0x7f06000f
+			public const int tbPrincipal = 2131099663;
 			
 			// aapt resource value: 0x7f060008
 			public const int txtPort = 2131099656;
@@ -131,9 +128,6 @@ namespace MichaelTCC
 			
 			// aapt resource value: 0x7f06000e
 			public const int videoView1 = 2131099662;
-			
-			// aapt resource value: 0x7f060010
-			public const int videoView2 = 2131099664;
 			
 			static Id()
 			{

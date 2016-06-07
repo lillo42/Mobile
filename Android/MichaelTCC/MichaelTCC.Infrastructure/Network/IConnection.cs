@@ -8,7 +8,7 @@ namespace MichaelTCC.Infrastructure.Network
         event EventHandler<byte[]> OnDataReceive;
         event EventHandler<string> OnError;
 
-        Task SendDataAsync(byte[] data);
+        void SendData(byte[] data);
 
         bool IsListening { get; }
 

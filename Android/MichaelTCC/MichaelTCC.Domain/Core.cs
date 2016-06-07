@@ -39,6 +39,7 @@ namespace MichaelTCC.Domain
             }
         }
 
+        private SensorCapture _sensorCapture;
         public SensorCapture SensorCapture { get; set; }
         public IJoystickCapture JoystickCapture { get; set; }
         private readonly MichaelProtocolBuilder builder = new MichaelProtocolBuilder();
@@ -67,13 +68,14 @@ namespace MichaelTCC.Domain
                 NetworkColletion.Instance.TcpConnection.OnDataReceive += TcpConnection_OnDataReceive;
         }
 
-        private async void TcpConnection_OnDataReceive(object sender, byte[] e)
+        private void TcpConnection_OnDataReceive(object sender, byte[] e)
         {
             builder.Clear();
-            await ProtocolSender.SendAsync(builder
-                                            .AddJoystickDTO(JoystickCapture.JoystickDTO)
-                                            .AddSensorDTO(SensorCapture.Sensor)
-                                            .Result(),
+            if (JoystickCapture != null)
+                builder.AddJoystickDTO(JoystickCapture.JoystickDTO);
+            if (SensorCapture != null)
+                builder.AddSensorDTO(SensorCapture.Sensor);
+            ProtocolSender.Send(builder.Result(),
                                            NetworkColletion.Instance.TcpConnection);
         }
     }

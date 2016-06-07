@@ -7,10 +7,10 @@ namespace MichaelTCC.Domain.Network
 {
     public static class TcpServerNetworkExtension
     {
-        public static async Task  SendMessageAsync(this TcpServerNetwork tcp, string message)
+        public static void SendMessage(this TcpServerNetwork tcp, string message)
         {
             byte[] messageBytes = Encoding.ASCII.GetBytes(message);
-            await tcp.SendDataAsync(messageBytes);
+            tcp.SendData(messageBytes);
         }
     }
 }

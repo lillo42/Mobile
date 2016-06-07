@@ -7,9 +7,9 @@ namespace MichaelTCC.Domain.Protocol
 {
     internal class ProtocolSender
     {
-        internal static async Task SendAsync(IMichaelProtocol michaelProtocol, TcpServerNetwork tcpConnection)
+        internal static void Send(IMichaelProtocol michaelProtocol, TcpServerNetwork tcpConnection)
         {
-            await tcpConnection.SendMessageAsync(ConvertProtocol.MichaelProtocolToString(michaelProtocol));
+            tcpConnection.SendMessage(ConvertProtocol.MichaelProtocolToString(michaelProtocol));
         }
     }
 }

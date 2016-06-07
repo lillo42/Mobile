@@ -10,7 +10,6 @@ using Android.Views;
 using System.Threading;
 using MichaelTCC.Domain.DTO;
 using MichaelTCC.Domain;
-using Android.Graphics;
 
 namespace MichaelTCC.Activities
 {
@@ -40,6 +39,7 @@ namespace MichaelTCC.Activities
                         returining.Right = (_direction.HasValue && _direction == Keycode.DpadUp);
                         returining.Down = (_direction.HasValue && _direction == Keycode.DpadRight);
                     }
+                    
 
                     if (Math.Abs(_lastUpdateCommand.Subtract(DateTime.Now).TotalMilliseconds) < 10)
                     {
@@ -49,7 +49,8 @@ namespace MichaelTCC.Activities
                         returining.Triangle = (_comand.HasValue && _comand == Keycode.ButtonY);
                     }
 
-
+                    _comand = null;
+                    _direction = null;
                     return returining;
                 }
                 finally
@@ -85,12 +86,12 @@ namespace MichaelTCC.Activities
                 var uri = Android.Net.Uri.Parse(_url);
 
                 var v1 = FindViewById<VideoView>(Resource.Id.videoView1);
-                //v1.SetVideoURI(uri);
+                v1.SetVideoURI(uri);
 
-                var v2 = FindViewById<VideoView>(Resource.Id.videoView2);
-                v2.SetVideoURI(uri);
+                //var v2 = FindViewById<VideoView>(Resource.Id.videoView2);
+                //v2.SetVideoURI(uri);
 
-                //v1.Start();
+                v1.Start();
                 //v2.Start();
             }
         }
@@ -108,7 +109,7 @@ namespace MichaelTCC.Activities
                         _direction = keyCode;
                         _lastUpdateDirection = DateTime.Now;
                     }
-                    else if(keyCode == Keycode.ButtonA || keyCode == Keycode.ButtonB 
+                    else if (keyCode == Keycode.ButtonA || keyCode == Keycode.ButtonB
                         || keyCode == Keycode.ButtonX || keyCode == Keycode.ButtonY)
                     {
                         _comand = keyCode;

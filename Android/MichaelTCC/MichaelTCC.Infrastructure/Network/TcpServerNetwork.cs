@@ -17,14 +17,14 @@ namespace MichaelTCC.Infrastructure.Network
         private Task _listening;
         private bool isDisposed = true;
 
-        internal TcpServerNetwork(IPAddress localaddr, int port):base(localaddr,port)
+        internal TcpServerNetwork(int port) : base(port)
         {
 
         }
 
         public bool IsListening { get { return Active; } }
 
-        public async Task SendDataAsync(byte[] data)
+        public void SendData(byte[] data)
         {
             if (_tcpClient == null)
                 throw new ArgumentNullException("Conection not start");
@@ -32,11 +32,11 @@ namespace MichaelTCC.Infrastructure.Network
             NetworkStream network = _tcpClient.GetStream();
             byte[] dataLength = BitConverter.GetBytes(data.Length);
 
-            await network.WriteAsync(dataLength, 0, dataLength.Length);
-            await network.FlushAsync();
+            network.Write(dataLength, 0, dataLength.Length);
+            network.Flush();
 
-            await network.WriteAsync(data, 0, data.Length);
-            await network.FlushAsync();
+            network.Write(data, 0, data.Length);
+            network.Flush();
         }
 
         public void StartListening()
@@ -54,27 +54,27 @@ namespace MichaelTCC.Infrastructure.Network
             _cancel.Dispose();
         }
 
-        private async Task Listening(CancellationToken cancel)
+        private Task Listening(CancellationToken cancel)
         {
-            _tcpClient = await AcceptTcpClientAsync();
-            NetworkStream network = _tcpClient.GetStream();
-            while (!cancel.IsCancellationRequested)
+            Start();
+            return new TaskFactory().StartNew(() =>
             {
-                var lenghtByte = new byte[sizeof(int)];
-                int receive = await network.ReadAsync(lenghtByte, 0, lenghtByte.Length, cancel);
-                //Receive stop
-                if (receive != sizeof(int) || cancel.IsCancellationRequested)
-                    break;
+                _tcpClient = AcceptTcpClient();
+                NetworkStream network = _tcpClient.GetStream();
+                while (!cancel.IsCancellationRequested)
+                {
+                    try
+                    {
+                        int read = network.ReadByte();
 
-                int lenghtData = BitConverter.ToInt32(lenghtByte, 0);
-                var dataRecive = new byte[lenghtData];
-                receive = await network.ReadAsync(dataRecive, 0, dataRecive.Length, cancel);
-
-                if (receive != lenghtData || cancel.IsCancellationRequested)
-                    break;
-
-                OnDataReceive?.Invoke(this, dataRecive);
-            }
+                        OnDataReceive?.Invoke(this, new byte[] { (byte)read });
+                    }
+                    catch(Exception e)
+                    {
+                        OnError?.Invoke(this, e.ToString());
+                    }
+                }
+            });
         }
 
         public void Dispose()
@@ -85,7 +85,7 @@ namespace MichaelTCC.Infrastructure.Network
 
         private void Dispose(bool dispose)
         {
-            if(dispose)
+            if (dispose)
             {
                 if (Active && Server != null && _tcpClient != null)
                 {
