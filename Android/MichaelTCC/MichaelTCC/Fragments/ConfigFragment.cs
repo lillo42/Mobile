@@ -5,7 +5,6 @@ using Android.Widget;
 using MichaelTCC.Service;
 using Android.App;
 using MichaelTCC.Domain.DTO;
-using System.Threading.Tasks;
 using MichaelTCC.Infrastructure.DTO;
 
 namespace MichaelTCC.Fragments
@@ -16,8 +15,10 @@ namespace MichaelTCC.Fragments
         private EditText txtPort { get; set; }
         private Button btnSave { get; set; }
 
-        private readonly ConfigurationService _configservice;
+        private ConfigurationService _configservice;
 
+        public ConfigFragment()
+        { }
         public ConfigFragment(ConfigurationService configservice)
         {
             _configservice = configservice;

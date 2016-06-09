@@ -1,14 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using MichaelTCC.Domain.Sensor;
 using MichaelTCC.Domain.Joystick;
 using MichaelTCC.Infrastructure.DTO;
@@ -39,9 +28,9 @@ namespace MichaelTCC.Domain
             }
         }
 
-        private SensorCapture _sensorCapture;
-        public SensorCapture SensorCapture { get; set; }
-        public IJoystickCapture JoystickCapture { get; set; }
+        public JoystickBuilder JoystickBuilder { get; } = new JoystickBuilder();
+        public SensorBuilder SensorBuilder { get; } = new SensorBuilder();
+
         private readonly MichaelProtocolBuilder builder = new MichaelProtocolBuilder();
 
         public void StartServerTcp(ITcpConfigurationDTO tcp)
@@ -71,10 +60,10 @@ namespace MichaelTCC.Domain
         private void TcpConnection_OnDataReceive(object sender, byte[] e)
         {
             builder.Clear();
-            if (JoystickCapture != null)
-                builder.AddJoystickDTO(JoystickCapture.JoystickDTO);
-            if (SensorCapture != null)
-                builder.AddSensorDTO(SensorCapture.Sensor);
+
+            builder
+                .AddJoystickDTO(JoystickBuilder.JoystickDTO)
+                .AddSensorDTO(SensorBuilder.SensorDTO);
             ProtocolSender.Send(builder.Result(),
                                            NetworkColletion.Instance.TcpConnection);
         }

@@ -1,24 +1,30 @@
 ﻿using Android.App;
-using Android.Views;
-using Android.OS;
-using MichaelTCC.Service;
-using Android.Hardware;
-using Android.Widget;
-using System;
-using MichaelTCC.Fragments;
 using Android.Content;
-using MichaelTCC.Activities;
+using Android.Hardware;
+using Android.OS;
 using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using MichaelTCC.Activities;
+using MichaelTCC.Domain.DTO;
+using MichaelTCC.Domain.Sensor;
+using MichaelTCC.Fragments;
+using MichaelTCC.Infrastructure.DTO;
+using MichaelTCC.Service;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Collections.Generic;
+using MichaelTCC.Domain;
 
 namespace MichaelTCC
 {
     [Activity(Label = "MichaelTCC", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity
+    public class MainActivity : Activity, ISensorEventListener
     {
         private ConfigurationService _configService;
         private MainService _mainService;
         private NetworkService _networkService;
-        private SensorService _sensorService;
         private VideoService _videoService;
 
         protected override void OnCreate(Bundle bundle)
@@ -70,7 +76,7 @@ namespace MichaelTCC
         private void CreateMainService()
         {
             _networkService = new NetworkService();
-            _mainService = new MainService(_networkService, _sensorService,_configService);
+            _mainService = new MainService(_networkService,_configService);
             _mainService.OnNotifition += MainService_OnNotifition;
         }
 
@@ -88,8 +94,18 @@ namespace MichaelTCC
         private void CreateSensorService()
         {
             SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
-            Sensor sensor = sensorManger.GetDefaultSensor(SensorType.MagneticFieldUncalibrated);
-            _sensorService = new SensorService(sensorManger, sensor);
+            Sensor sensor = sensorManger.GetDefaultSensor(SensorType.MagneticField);
+            sensorManger.RegisterListener(this, sensor, SensorDelay.Fastest);
+        }
+
+        public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
+        {
+
+        }
+
+        public void OnSensorChanged(SensorEvent e)
+        {
+            Core.Instance.SensorBuilder.SetValues(e.Values);
         }
         #endregion
     }

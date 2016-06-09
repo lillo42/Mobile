@@ -1,6 +1,7 @@
 using Java.IO;
 using MichaelTCC.Domain;
 using MichaelTCC.Domain.Protocol;
+using MichaelTCC.Domain.Sensor;
 using MichaelTCC.Infrastructure.DTO;
 
 namespace MichaelTCC.Service
@@ -8,14 +9,12 @@ namespace MichaelTCC.Service
     public sealed class MainService : BaseService
     {
         private readonly NetworkService _networkService;
-        private readonly SensorService _sensorService;
         private readonly ConfigurationService _configService;
         private readonly MichaelProtocolBuilder _builder = new MichaelProtocolBuilder();
 
-        public MainService(NetworkService networkService, SensorService sensorService, ConfigurationService configurationService)
+        public MainService(NetworkService networkService, ConfigurationService configurationService)
         {
             _networkService = networkService;
-            _sensorService = sensorService;
             _configService = configurationService;
 
             _networkService.OnNotifition += NetworkService_OnNotifition;
@@ -23,7 +22,6 @@ namespace MichaelTCC.Service
 
         public void StartServer()
         {
-            Core.Instance.SensorCapture = _sensorService.SensorCapture;
             Core.Instance.StartServerTcp(_configService.ReadTcp());
         }
 
