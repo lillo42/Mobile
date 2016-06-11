@@ -14,26 +14,29 @@ namespace MichaelTCC.Domain.Joystick
         public bool RemoveKey(Keycode keyCode)
         {
             bool returning = false;
-            if (_semaphore.WaitOne(1))
+            if ((keyCode == Keycode.ButtonA || keyCode == Keycode.ButtonB ||
+                       keyCode == Keycode.ButtonX || keyCode == Keycode.ButtonY)
+                   || (keyCode == Keycode.DpadLeft || keyCode == Keycode.DpadDown ||
+                   keyCode == Keycode.DpadUp || keyCode == Keycode.DpadRight))
             {
-                try
+                returning = true;
+                if (_semaphore.WaitOne(1))
                 {
-                    if (keyCode == Keycode.ButtonA || keyCode == Keycode.ButtonB
-                    || keyCode == Keycode.ButtonX || keyCode == Keycode.ButtonY)
+                    try
                     {
                         if (_listComand.Exists(x => x == keyCode))
                             _listComand.Remove(keyCode);
-                        returning = true;
+
+                    }
+                    finally
+                    {
+                        _semaphore.Release();
                     }
                 }
-                finally
-                {
-                    _semaphore.Release();
-                }
-
             }
             return returning;
         }
+
         public bool AddKey(Keycode keyCode)
         {
             bool returning = false;
