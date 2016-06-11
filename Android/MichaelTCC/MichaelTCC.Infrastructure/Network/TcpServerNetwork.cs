@@ -26,17 +26,24 @@ namespace MichaelTCC.Infrastructure.Network
 
         public void SendData(byte[] data)
         {
-            if (_tcpClient == null)
-                throw new ArgumentNullException("Conection not start");
 
-            NetworkStream network = _tcpClient.GetStream();
-            byte[] dataLength = BitConverter.GetBytes(data.Length);
+            try
+            {
+                if (_tcpClient == null)
+                    throw new ArgumentNullException("Conection not start");
 
-            network.Write(dataLength, 0, dataLength.Length);
-            network.Flush();
+                NetworkStream network = _tcpClient.GetStream();
+                byte[] dataLength = BitConverter.GetBytes(data.Length);
 
-            network.Write(data, 0, data.Length);
-            network.Flush();
+                network.Write(dataLength, 0, dataLength.Length);
+                network.Flush();
+
+                network.Write(data, 0, data.Length);
+                network.Flush();
+            }
+            catch
+            {
+            }
         }
 
         public void StartListening()

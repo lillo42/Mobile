@@ -9,6 +9,7 @@ namespace MichaelTCC.Domain.Protocol
         internal static string MichaelProtocolToString(IMichaelProtocol michaelProtocol)
         {
             var sb = new StringBuilder();
+            sb.Append(";");
             sb.Append(Convert.ToInt32(michaelProtocol.Up));
             sb.Append(";");
             sb.Append(Convert.ToInt32(michaelProtocol.Down));
@@ -28,7 +29,7 @@ namespace MichaelTCC.Domain.Protocol
 
             foreach (float values in michaelProtocol.SensorValues)
             {
-                sb.Append(string.Format("{0:00}", values));
+                sb.Append(string.Format("{0:0.00}", values));
                 sb.Append(";");
             }
 

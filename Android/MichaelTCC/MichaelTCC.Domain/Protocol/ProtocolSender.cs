@@ -9,7 +9,8 @@ namespace MichaelTCC.Domain.Protocol
     {
         internal static void Send(IMichaelProtocol michaelProtocol, TcpServerNetwork tcpConnection)
         {
-            tcpConnection.SendMessage(ConvertProtocol.MichaelProtocolToString(michaelProtocol));
+            string strSend = ConvertProtocol.MichaelProtocolToString(michaelProtocol);
+            tcpConnection.SendMessage(strSend);
         }
     }
 }

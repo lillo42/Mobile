@@ -29,31 +29,42 @@ namespace MichaelTCC.Domain.Save
 
         public static IVideoConfigurationDTO ReadVideo(File filesDir)
         {
+            IVideoConfigurationDTO video = new VideoConfigurationDTO();
             try
             {
-                var json = new JSONObject(TextFile.Read(filesDir, c_urlJson));
-                IVideoConfigurationDTO video = new VideoConfigurationDTO();
-                video.Url = json.GetString(nameof(IVideoConfigurationDTO.Url));
+                string file = TextFile.Read(filesDir, c_tcpJson);
+                if (!string.IsNullOrEmpty(file))
+                {
+                    var json = new JSONObject(TextFile.Read(filesDir, c_urlJson));
+                    video = new VideoConfigurationDTO();
+                    video.Url = json.GetString(nameof(IVideoConfigurationDTO.Url));
+                }
                 return video;
             }
             catch
             {
-                return new VideoConfigurationDTO();
+                return video;
             }
         }
 
         public static ITcpConfigurationDTO ReadTcp(File filesDir)
         {
+            ITcpConfigurationDTO tcp = new TcpConfigurationDTO { Port = 8000 };
             try
             {
-                var json = new JSONObject(TextFile.Read(filesDir, c_tcpJson));
-                ITcpConfigurationDTO tcp = new TcpConfigurationDTO();
-                tcp.Port = json.GetInt(nameof(ITcpConfigurationDTO.Port));
+                string file = TextFile.Read(filesDir, c_tcpJson);
+                if (!string.IsNullOrEmpty(file))
+                {
+                    var json = new JSONObject(TextFile.Read(filesDir, c_tcpJson));
+                    tcp = new TcpConfigurationDTO();
+                    tcp.Port = json.GetInt(nameof(ITcpConfigurationDTO.Port));
+                }
+
                 return tcp;
             }
             catch
             {
-                return new TcpConfigurationDTO { Port = 8000 } ;
+                return tcp;
             }
         }
     }

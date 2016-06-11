@@ -30,12 +30,15 @@ namespace MichaelTCC.Infrastructure.Files
             var file = new File(filesDir, filename);
             try
             {
-                using (var fileReader = new FileReader(file))
+                if (file.Exists())
                 {
-                    br = new BufferedReader(fileReader);
-                    string line = string.Empty;
-                    while ((line = br.ReadLine()) != null)
-                        sb.Append(line);
+                    using (var fileReader = new FileReader(file))
+                    {
+                        br = new BufferedReader(fileReader);
+                        string line = string.Empty;
+                        while ((line = br.ReadLine()) != null)
+                            sb.Append(line);
+                    }
                 }
             }
             finally

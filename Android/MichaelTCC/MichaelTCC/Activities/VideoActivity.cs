@@ -5,11 +5,11 @@ using Android.Views;
 using MichaelTCC.Domain;
 using Android.Webkit;
 using Android.Hardware;
-using System;
+using Android.Content.PM;
 
 namespace MichaelTCC.Activities
 {
-    [Activity(Label = "VideoActivity", Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
+    [Activity(Label = "VideoActivity", Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen",ScreenOrientation = ScreenOrientation.Landscape)]
     public class VideoActivity : Activity, ISensorEventListener
     {
         private string _url;
@@ -41,17 +41,56 @@ namespace MichaelTCC.Activities
             }
         }
 
-        private void CreateSensorService()
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                UnRegisterSensor();
+            base.Dispose(disposing);
+        }
+        protected override void OnStart()
         {
             SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
-            Sensor sensor = sensorManger.GetDefaultSensor(SensorType.MagneticField);
-            sensorManger.RegisterListener(this, sensor, SensorDelay.Fastest);
+            Sensor sensor = sensorManger.GetDefaultSensor(SensorType.Orientation);
+            if (sensor != null)
+                sensorManger.RegisterListener(this, sensor, SensorDelay.Fastest);
+            base.OnStart();
+        }
+
+        protected override void OnPause()
+        {
+            RegisterSensor();
+            base.OnPause();
+        }
+
+        private void RegisterSensor()
+        {
+            SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
+            sensorManger.UnregisterListener(this);
+        }
+
+        protected override void OnStop()
+        {
+            UnRegisterSensor();
+            base.OnStop();
+        }
+
+        private void UnRegisterSensor()
+        {
+            SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
+            sensorManger.UnregisterListener(this);
+        }
+
+        public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            if (Core.Instance.JoystickBuilder.AddKey(keyCode))
+                return true;
+            return base.OnKeyDown(keyCode, e);
         }
 
         public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent e)
         {
-            Core.Instance.JoystickBuilder.SetDirection(keyCode);
-            Core.Instance.JoystickBuilder.SetCommand(keyCode);
+            if (Core.Instance.JoystickBuilder.RemoveKey(keyCode))
+                return true;
             return base.OnKeyUp(keyCode, e);
         }
 

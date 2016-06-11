@@ -1,25 +1,21 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MichaelTCC.Activities;
-using MichaelTCC.Domain.DTO;
-using MichaelTCC.Domain.Sensor;
+using MichaelTCC.Domain;
 using MichaelTCC.Fragments;
-using MichaelTCC.Infrastructure.DTO;
 using MichaelTCC.Service;
 using System;
-using System.Linq;
-using System.Threading;
-using System.Collections.Generic;
-using MichaelTCC.Domain;
+
 
 namespace MichaelTCC
 {
-    [Activity(Label = "MichaelTCC", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "MichaelTCC", MainLauncher = true, Icon = "@drawable/icon",ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : Activity, ISensorEventListener
     {
         private ConfigurationService _configService;
@@ -56,19 +52,60 @@ namespace MichaelTCC
         {
             var intent = new Intent(this, typeof(VideoActivity));
             intent.PutExtra("Url", _videoService.GetVideoConfiguration().Url);
+            UnregisterSensor();
             StartActivity(intent);
         }
 
+        #region override
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.actionbar_main,menu);
             return base.OnCreateOptionsMenu(menu);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                UnregisterSensor();
+            base.Dispose(disposing);
+        }
+
+        protected override void OnStart()
+        {
+            RegisterSensor();
+            base.OnStart();
+        }
+
+        protected override void OnPause()
+        {
+            UnregisterSensor();
+            base.OnPause();
+        }
+
+        protected override void OnStop()
+        {
+            UnregisterSensor();
+            base.OnStop();
+        }
+        #endregion
+
+        private void RegisterSensor()
+        {
+            SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
+            Sensor sensor = sensorManger.GetDefaultSensor(SensorType.Orientation);
+            if (sensor != null)
+                sensorManger.RegisterListener(this, sensor, SensorDelay.Fastest);
+        }
+
+        private void UnregisterSensor()
+        {
+            SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
+            sensorManger.UnregisterListener(this);
+        }
+
         #region Creating Services
         private void CreateServices()
         {
-            CreateSensorService();
             CreateVideoService();
             CreateMainService();
         }
@@ -91,12 +128,7 @@ namespace MichaelTCC
             _videoService = new VideoService(_configService);
         }
 
-        private void CreateSensorService()
-        {
-            SensorManager sensorManger = GetSystemService(SensorService) as SensorManager;
-            Sensor sensor = sensorManger.GetDefaultSensor(SensorType.MagneticField);
-            sensorManger.RegisterListener(this, sensor, SensorDelay.Fastest);
-        }
+
 
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
         {
@@ -106,6 +138,20 @@ namespace MichaelTCC
         public void OnSensorChanged(SensorEvent e)
         {
             Core.Instance.SensorBuilder.SetValues(e.Values);
+        }
+
+        public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            if(Core.Instance.JoystickBuilder.AddKey(keyCode))
+                return true;
+            return base.OnKeyDown(keyCode, e);
+        }
+
+        public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            if (Core.Instance.JoystickBuilder.RemoveKey(keyCode))
+                return true;
+            return base.OnKeyUp(keyCode, e);
         }
         #endregion
     }
