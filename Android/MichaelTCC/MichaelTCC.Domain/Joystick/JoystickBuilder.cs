@@ -3,21 +3,34 @@ using MichaelTCC.Domain.DTO;
 using MichaelTCC.Infrastructure.DTO;
 using System.Threading;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MichaelTCC.Domain.Joystick
 {
     public sealed class JoystickBuilder : IJoystickCapture
     {
         private readonly Semaphore _semaphore = new Semaphore(1, 1);
+        private readonly ReadOnlyCollection<Keycode> _keys;
         private List<Keycode> _listComand = new List<Keycode>();
+
+        public JoystickBuilder()
+        {
+            _keys = new ReadOnlyCollection<Keycode>(new List<Keycode> {
+                Keycode.ButtonA,
+                Keycode.ButtonB,
+                Keycode.ButtonX,
+                Keycode.ButtonY,
+                Keycode.DpadLeft,
+                Keycode.DpadDown,
+                Keycode.DpadUp,
+                Keycode.DpadUp
+            });
+        }
 
         public bool RemoveKey(Keycode keyCode)
         {
             bool returning = false;
-            if ((keyCode == Keycode.ButtonA || keyCode == Keycode.ButtonB ||
-                       keyCode == Keycode.ButtonX || keyCode == Keycode.ButtonY)
-                   || (keyCode == Keycode.DpadLeft || keyCode == Keycode.DpadDown ||
-                   keyCode == Keycode.DpadUp || keyCode == Keycode.DpadRight))
+            if (_keys.Contains(keyCode))
             {
                 returning = true;
                 if (_semaphore.WaitOne(1))
@@ -40,26 +53,22 @@ namespace MichaelTCC.Domain.Joystick
         public bool AddKey(Keycode keyCode)
         {
             bool returning = false;
-            if (_semaphore.WaitOne(1))
+            if (_keys.Contains(keyCode))
             {
-                try
+                returning = true;
+                if (_semaphore.WaitOne(1))
                 {
-
-                    if ((keyCode == Keycode.ButtonA || keyCode == Keycode.ButtonB ||
-                        keyCode == Keycode.ButtonX || keyCode == Keycode.ButtonY)
-                    || (keyCode == Keycode.DpadLeft || keyCode == Keycode.DpadDown ||
-                    keyCode == Keycode.DpadUp || keyCode == Keycode.DpadRight))
+                    try
                     {
-                        returning = true;
                         if (!_listComand.Exists(x => x == keyCode))
                             _listComand.Add(keyCode);
                     }
-                }
-                finally
-                {
-                    _semaphore.Release();
-                }
+                    finally
+                    {
+                        _semaphore.Release();
+                    }
 
+                }
             }
             return returning;
         }
