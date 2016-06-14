@@ -1,15 +1,15 @@
 using Android.App;
+using Android.Content.PM;
+using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using MichaelTCC.Domain;
 using Android.Webkit;
-using Android.Hardware;
-using Android.Content.PM;
+using MichaelTCC.Domain;
 
 namespace MichaelTCC.Activities
 {
-    [Activity(Label = "VideoActivity", Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen",ScreenOrientation = ScreenOrientation.Landscape)]
+    [Activity(Label = "VideoActivity", Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen",ScreenOrientation = ScreenOrientation.Portrait)]
     public class VideoActivity : Activity, ISensorEventListener
     {
         private string _url;

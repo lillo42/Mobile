@@ -23,7 +23,14 @@ namespace MichaelTCC.Domain.Joystick
                 Keycode.DpadLeft,
                 Keycode.DpadDown,
                 Keycode.DpadUp,
-                Keycode.DpadUp
+                Keycode.DpadUp,
+                Keycode.MediaFastForward,
+                Keycode.MediaRewind,
+                Keycode.MediaNext,
+                Keycode.MediaPrevious,
+                Keycode.VolumeUp,
+                Keycode.VolumeDown,
+                Keycode.Back
             });
         }
 
@@ -82,17 +89,17 @@ namespace MichaelTCC.Domain.Joystick
                 {
                     IJoystickDTO returining = new JoystickDTO();
 
-                    returining.Up = _listComand.Exists(x => x == Keycode.DpadLeft);
-                    returining.Left = _listComand.Exists(x => x == Keycode.DpadDown);
-                    returining.Right = _listComand.Exists(x => x == Keycode.DpadUp);
-                    returining.Down = _listComand.Exists(x => x == Keycode.DpadRight);
+                    returining.Up = _listComand.Exists(x => x == Keycode.DpadLeft) || _listComand.Exists(x => x == Keycode.MediaFastForward);
+                    returining.Left = _listComand.Exists(x => x == Keycode.DpadDown) || _listComand.Exists(x => x == Keycode.MediaPrevious);
+                    returining.Right = _listComand.Exists(x => x == Keycode.DpadUp) || _listComand.Exists(x => x == Keycode.MediaNext);
+                    returining.Down = _listComand.Exists(x => x == Keycode.DpadRight) || _listComand.Exists(x => x == Keycode.MediaRewind);
 
 
 
-                    returining.X = _listComand.Exists(x => x == Keycode.ButtonA);
+                    returining.X = _listComand.Exists(x => x == Keycode.ButtonA) || _listComand.Exists(x => x == Keycode.VolumeDown);
                     returining.A = _listComand.Exists(x => x == Keycode.ButtonB);
-                    returining.iOS = _listComand.Exists(x => x == Keycode.ButtonX);
-                    returining.Triangle = _listComand.Exists(x => x == Keycode.ButtonY);
+                    returining.iOS = _listComand.Exists(x => x == Keycode.ButtonX) || _listComand.Exists(x => x == Keycode.VolumeUp);
+                    returining.Triangle = _listComand.Exists(x => x == Keycode.ButtonY) || _listComand.Exists(x => x == Keycode.Back);
 
                     return returining;
                 }

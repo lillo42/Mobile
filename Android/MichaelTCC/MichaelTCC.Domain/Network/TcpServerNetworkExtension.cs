@@ -1,6 +1,4 @@
-using System;
 using MichaelTCC.Infrastructure.Network;
-using System.Threading.Tasks;
 using System.Text;
 
 namespace MichaelTCC.Domain.Network
