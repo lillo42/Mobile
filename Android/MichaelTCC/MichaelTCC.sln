@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MichaelTCC", "MichaelTCC\MichaelTCC.csproj", "{45A73F2E-9D63-469A-933B-9B5A316D1A62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ROBIMOT", "MichaelTCC\ROBIMOT.csproj", "{45A73F2E-9D63-469A-933B-9B5A316D1A62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MichaelTCC.Service", "MichaelTCC.Service\MichaelTCC.Service.csproj", "{4E36CC8E-5F6D-4B4C-9A44-D96411840269}"
 EndProject

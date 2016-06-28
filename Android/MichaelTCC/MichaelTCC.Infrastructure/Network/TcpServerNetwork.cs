@@ -29,17 +29,17 @@ namespace MichaelTCC.Infrastructure.Network
 
             try
             {
-                if (_tcpClient == null)
-                    throw new ArgumentNullException("Conection not start");
+                if (_tcpClient != null)
+                {
+                    NetworkStream network = _tcpClient.GetStream();
+                    byte[] dataLength = BitConverter.GetBytes(data.Length);
 
-                NetworkStream network = _tcpClient.GetStream();
-                byte[] dataLength = BitConverter.GetBytes(data.Length);
+                    //network.Write(dataLength, 0, dataLength.Length);
+                    //network.Flush();
 
-                network.Write(dataLength, 0, dataLength.Length);
-                network.Flush();
-
-                network.Write(data, 0, data.Length);
-                network.Flush();
+                    network.Write(data, 0, data.Length);
+                    network.Flush();
+                }
             }
             catch
             {
@@ -78,6 +78,7 @@ namespace MichaelTCC.Infrastructure.Network
                     }
                     catch(Exception e)
                     {
+                        _tcpClient = null;
                         OnError?.Invoke(this, e.ToString());
                     }
                 }

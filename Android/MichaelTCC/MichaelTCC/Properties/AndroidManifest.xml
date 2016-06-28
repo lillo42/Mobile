@@ -8,5 +8,5 @@
 	<uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 	<uses-permission android:name="android.permission.READ_OWNER_DATA" />
 	<uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
-	<application android:label="MichaelTCC"></application>
+	<application android:icon="@drawable/ROBIMOT" android:label="ROBIMOT"></application>
 </manifest>
