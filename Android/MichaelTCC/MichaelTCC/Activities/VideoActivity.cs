@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Webkit;
 using MichaelTCC.Domain;
+using MichaelTCC.WebInterface;
 
 namespace MichaelTCC.Activities
 {
@@ -29,6 +30,7 @@ namespace MichaelTCC.Activities
 
             SetContentView(Resource.Layout.fragment_video);
 
+
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.Fullscreen);
 
@@ -37,8 +39,26 @@ namespace MichaelTCC.Activities
                 var v1 = FindViewById<WebView>(Resource.Id.webView1);
                 v1.Settings.JavaScriptEnabled = true;
                 v1.Settings.LoadsImagesAutomatically = true;
+
+                var key = new KeyPressWebInterface(this);
+                key.OnKeyDown += Key_OnKeyDown;
+                key.OnKeyUp += Key_OnKeyUp;
+
+                v1.AddJavascriptInterface(key, "key");
+
                 v1.LoadUrl(_url);
             }
+        }
+
+
+        private void Key_OnKeyUp(object sender, Keycode e)
+        {
+            OnKeyUp(e, new KeyEvent(KeyEventActions.Up, e));
+        }
+
+        private void Key_OnKeyDown(object sender, Keycode e)
+        {
+            OnKeyDown(e, new KeyEvent(KeyEventActions.Down, e));
         }
 
         protected override void Dispose(bool disposing)
