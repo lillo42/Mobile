@@ -2,7 +2,7 @@ using MichaelTCC.Infrastructure.Protocol;
 
 namespace MichaelTCC.Domain.Protocol
 {
-    public class DataReceiveProtocol : IDataReceiveProtocol
+    public class DataReceiveProtocol : Java.Lang.Object, IDataReceiveProtocol
     {
         public string Campo1 { get; set; }
         public string Campo2 { get; set; }

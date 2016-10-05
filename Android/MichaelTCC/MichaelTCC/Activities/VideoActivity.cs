@@ -45,6 +45,7 @@ namespace MichaelTCC.Activities
                 key.OnKeyUp += Key_OnKeyUp;
 
                 v1.AddJavascriptInterface(key, "key");
+                v1.AddJavascriptInterface(new DadosWebInterface(this), "data");
 
                 v1.LoadUrl(_url);
             }

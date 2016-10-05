@@ -4,7 +4,6 @@ using MichaelTCC.Infrastructure.DTO;
 using MichaelTCC.Domain.Network;
 using MichaelTCC.Domain.Protocol;
 using MichaelTCC.Infrastructure.Protocol;
-using MichaelTCC.Domain.DataReceive;
 
 namespace MichaelTCC.Domain
 {
@@ -33,9 +32,9 @@ namespace MichaelTCC.Domain
         public JoystickBuilder JoystickBuilder { get; } = new JoystickBuilder();
         public SensorBuilder SensorBuilder { get; } = new SensorBuilder();
 
-        public IDataReceiveProtocol DataReceive { get { return dataReceive; } private set { dataReceive = value; } }
+        public DataReceiveProtocol DataReceive { get { return dataReceive; } private set { dataReceive = value; } }
 
-        private volatile IDataReceiveProtocol dataReceive;
+        private volatile DataReceiveProtocol dataReceive;
 
 
         private readonly MichaelProtocolBuilder builder = new MichaelProtocolBuilder();

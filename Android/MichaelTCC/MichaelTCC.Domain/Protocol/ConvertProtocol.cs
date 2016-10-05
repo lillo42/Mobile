@@ -39,7 +39,7 @@ namespace MichaelTCC.Domain.Protocol
             return sb.ToString();
         }
 
-        internal static IDataReceiveProtocol BytesToIDataReceiveProtocol(byte[] data)
+        internal static DataReceiveProtocol BytesToIDataReceiveProtocol(byte[] data)
         {
             string dataString = BitConverter.ToString(data);
             string[] campos = dataString.Split(';');
