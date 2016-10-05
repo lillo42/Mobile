@@ -44,6 +44,8 @@ namespace MichaelTCC.WebInterface
                     return Keycode.DpadRight;
                 case 13:
                     return Keycode.ButtonB;
+                case 8:
+                    return Keycode.Button1;
                 default:
                     return Keycode.D;
             }

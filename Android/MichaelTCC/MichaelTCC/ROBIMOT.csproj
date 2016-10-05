@@ -76,6 +76,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebInterface\BaseWebInterface.cs" />
+    <Compile Include="WebInterface\DadosWebInterface.cs" />
     <Compile Include="WebInterface\KeyPressWebInterface.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace MichaelTCC.Infrastructure.Network
 {
@@ -33,9 +34,6 @@ namespace MichaelTCC.Infrastructure.Network
                 {
                     NetworkStream network = _tcpClient.GetStream();
                     byte[] dataLength = BitConverter.GetBytes(data.Length);
-
-                    //network.Write(dataLength, 0, dataLength.Length);
-                    //network.Flush();
 
                     network.Write(data, 0, data.Length);
                     network.Flush();
@@ -74,7 +72,15 @@ namespace MichaelTCC.Infrastructure.Network
                     {
                         int read = network.ReadByte();
 
-                        OnDataReceive?.Invoke(this, new byte[] { (byte)read });
+                        var listBytes = new List<byte>();
+                        listBytes.Add((byte)read);
+                        if (read == 'S')
+                        {
+                            while(listBytes.Count < 2 && listBytes[listBytes.Count - 2] == 'C' && listBytes[listBytes.Count - 2] == 'R')
+                                listBytes.Add((byte)network.ReadByte());
+                        }
+
+                        OnDataReceive?.Invoke(this, listBytes.ToArray());
                     }
                     catch(Exception e)
                     {

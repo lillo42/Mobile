@@ -20,9 +20,9 @@ namespace MichaelTCC.Domain.Joystick
                 Keycode.ButtonB,
                 Keycode.ButtonX,
                 Keycode.ButtonY,
+                Keycode.DpadRight,
                 Keycode.DpadLeft,
                 Keycode.DpadDown,
-                Keycode.DpadUp,
                 Keycode.DpadUp,
                 Keycode.MediaFastForward,
                 Keycode.MediaRewind,
@@ -30,7 +30,8 @@ namespace MichaelTCC.Domain.Joystick
                 Keycode.MediaPrevious,
                 Keycode.VolumeUp,
                 Keycode.VolumeDown,
-                Keycode.Back
+                Keycode.Back,
+                Keycode.Button1
             });
         }
 
@@ -100,6 +101,7 @@ namespace MichaelTCC.Domain.Joystick
                     returining.A = _listComand.Exists(x => x == Keycode.ButtonB);
                     returining.iOS = _listComand.Exists(x => x == Keycode.ButtonX) || _listComand.Exists(x => x == Keycode.VolumeUp);
                     returining.Triangle = _listComand.Exists(x => x == Keycode.ButtonY) || _listComand.Exists(x => x == Keycode.Back);
+                    returining.Button1 = _listComand.Exists(x => x == Keycode.Button1);
 
                     return returining;
                 }

@@ -36,6 +36,7 @@ namespace MichaelTCC.Domain.Protocol
                 protocol.iOS = _joystickDTO.iOS;
                 protocol.Triangle = _joystickDTO.Triangle;
                 protocol.X = _joystickDTO.X;
+                protocol.Button1 = _joystickDTO.Button1;
             }
         }
 

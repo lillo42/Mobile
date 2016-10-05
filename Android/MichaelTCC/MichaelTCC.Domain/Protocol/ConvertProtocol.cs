@@ -33,7 +33,26 @@ namespace MichaelTCC.Domain.Protocol
                 sb.Append(";");
             }
 
+            sb.Append(Convert.ToInt32(michaelProtocol.Button1));
+            sb.Append(";");
+
             return sb.ToString();
+        }
+
+        internal static IDataReceiveProtocol BytesToIDataReceiveProtocol(byte[] data)
+        {
+            string dataString = BitConverter.ToString(data);
+            string[] campos = dataString.Split(';');
+            if(campos.Length != 7)
+                return new DataReceiveProtocol();
+            return new DataReceiveProtocol
+            {
+                Campo1 = campos[1],
+                Campo2 = campos[2],
+                Campo3 = campos[3],
+                Campo4 = campos[4],
+                Campo5 = campos[5],
+            };
         }
     }
 }

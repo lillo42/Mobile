@@ -10,5 +10,6 @@ namespace MichaelTCC.Infrastructure.DTO
         bool X { get; set; }
         bool A { get; set; }
         bool Triangle { get; set; }
+        bool Button1 { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace MichaelTCC.Domain.Protocol
         public bool X { get; set; }
         public bool A { get; set; }
         public bool Triangle { get; set; }
+        public bool Button1 { get; set; }
         public float[] SensorValues { get; set; }
     }
 }
