@@ -2,8 +2,6 @@ using Android.Content;
 using Android.Webkit;
 using Java.Interop;
 using MichaelTCC.Domain;
-using MichaelTCC.Domain.Protocol;
-using MichaelTCC.Infrastructure.Protocol;
 
 namespace MichaelTCC.WebInterface
 {
@@ -22,9 +20,9 @@ namespace MichaelTCC.WebInterface
 
         [Export]
         [JavascriptInterface]
-        public DataReceiveProtocol getDataReceive()
+        public string getDataReceive()
         {
-            return Core.Instance.DataReceive;
+            return Core.Instance.DataReceive.GetJsonDataProtocol();
         }
     }
 }
