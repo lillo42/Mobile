@@ -36,6 +36,7 @@ namespace MichaelTCC.Domain
 
         private readonly MichaelProtocolBuilder builder = new MichaelProtocolBuilder();
         private readonly TaskFactory _taskFactory = new TaskFactory();
+        private ITcpConfigurationDTO _tcpDTO;
         private CancellationTokenSource _cancel;
 
         public void StartServerTcp(ITcpConfigurationDTO tcp)
@@ -48,20 +49,28 @@ namespace MichaelTCC.Domain
             DettachedEvent();
             NetworkColletion.Instance.CreateConnection(tcp);
             AttachedEvent(tcp);
+            _tcpDTO = tcp;
         }
 
-        private void SendInfo(ITcpConfigurationDTO tcp, CancellationToken token)
+        private void SendInfoTask(ITcpConfigurationDTO tcp, CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
+            if (tcp.Time >= 0)
             {
-                builder.Clear();
-
-                builder
-                    .AddJoystickDTO(JoystickBuilder.JoystickDTO)
-                    .AddSensorDTO(SensorBuilder.SensorDTO);
-                ProtocolSender.Send(builder.Result(), NetworkColletion.Instance.TcpConnection);
-                Task.Delay(tcp.Time, token).Wait();
+                while (!token.IsCancellationRequested)
+                {
+                    SendInfo();
+                    Task.Delay(tcp.Time, token).Wait();
+                }
             }
+        }
+
+        private void SendInfo()
+        {
+            builder.Clear();
+            builder
+                .AddJoystickDTO(JoystickBuilder.JoystickDTO)
+                .AddSensorDTO(SensorBuilder.SensorDTO);
+            ProtocolSender.Send(builder.Result(), NetworkColletion.Instance.TcpConnection);
         }
 
         private void DettachedEvent()
@@ -77,20 +86,21 @@ namespace MichaelTCC.Domain
         {
             if (NetworkColletion.Instance.TcpConnection != null)
                 NetworkColletion.Instance.TcpConnection.OnDataReceive += TcpConnection_OnDataReceive;
-            _taskFactory.StartNew(() => SendInfo(tcp, _cancel.Token));
+            _taskFactory.StartNew(() => SendInfoTask(tcp, _cancel.Token));
         }
 
         private void TcpConnection_OnDataReceive(object sender, byte[] e)
         {
             DataReceive.SetDataProtocol(ConvertProtocol.BytesToIDataReceiveProtocol(e));
 
-            builder.Clear();
-
-            builder
-                .AddJoystickDTO(JoystickBuilder.JoystickDTO)
-                .AddSensorDTO(SensorBuilder.SensorDTO);
-            ProtocolSender.Send(builder.Result(),
-                                           NetworkColletion.Instance.TcpConnection);
+            if (_tcpDTO.Time < 0)
+            {
+                builder.Clear();
+                builder
+                    .AddJoystickDTO(JoystickBuilder.JoystickDTO)
+                    .AddSensorDTO(SensorBuilder.SensorDTO);
+                ProtocolSender.Send(builder.Result(), NetworkColletion.Instance.TcpConnection);
+            }
         }
     }
 }
