@@ -70,14 +70,17 @@ namespace MichaelTCC.Infrastructure.Network
                 {
                     try
                     {
-                        int read = network.ReadByte();
-
                         var listBytes = new List<byte>();
+
+                        int read = network.ReadByte();
                         listBytes.Add((byte)read);
                         if (read == 'S')
                         {
-                            while(listBytes.Count < 2 && listBytes[listBytes.Count - 2] == 'C' && listBytes[listBytes.Count - 2] == 'R')
+                            do
+                            {
                                 listBytes.Add((byte)network.ReadByte());
+                            }
+                            while (listBytes.Count < 2 || (listBytes.Count >= 2 && listBytes[listBytes.Count - 2] != 'C' && listBytes[listBytes.Count - 2] != 'R'));
                         }
 
                         OnDataReceive?.Invoke(this, listBytes.ToArray());

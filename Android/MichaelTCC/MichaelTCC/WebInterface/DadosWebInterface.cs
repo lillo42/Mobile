@@ -13,9 +13,9 @@ namespace MichaelTCC.WebInterface
 
         [Export]
         [JavascriptInterface]
-        public bool podeAtualiza()
+        public bool podeAtualizar()
         {
-            return false;
+            return Core.Instance.JoystickBuilder.JoystickDTO.Triangle;
         }
 
         [Export]

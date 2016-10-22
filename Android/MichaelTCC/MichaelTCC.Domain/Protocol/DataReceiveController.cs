@@ -7,7 +7,7 @@ namespace MichaelTCC.Domain.Protocol
     public class DataReceiveController
     {
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-        private IDataReceiveProtocol _protocol;
+        private IDataReceiveProtocol _protocol = new DataReceiveProtocol { Campo1 = "Ola", Campo2 = "Teste", Campo3 = "3", Campo4 = "4", Campo5 = "5" };
 
         internal void SetDataProtocol(IDataReceiveProtocol dataProtocol)
         {

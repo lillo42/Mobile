@@ -41,7 +41,7 @@ namespace MichaelTCC.Domain.Protocol
 
         internal static IDataReceiveProtocol BytesToIDataReceiveProtocol(byte[] data)
         {
-            string dataString = BitConverter.ToString(data);
+            string dataString = Encoding.UTF8.GetString(data, 0, data.Length);
             string[] campos = dataString.Split(';');
             if(campos.Length != 7)
                 return new DataReceiveProtocol();
