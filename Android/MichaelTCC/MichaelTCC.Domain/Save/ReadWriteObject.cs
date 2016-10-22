@@ -3,7 +3,6 @@ using MichaelTCC.Domain.DTO;
 using MichaelTCC.Infrastructure.DTO;
 using MichaelTCC.Infrastructure.Files;
 using Org.Json;
-using System.Threading.Tasks;
 
 namespace MichaelTCC.Domain.Save
 {
@@ -23,6 +22,7 @@ namespace MichaelTCC.Domain.Save
         {
             var json = new JSONObject();
             json.Put(nameof(ITcpConfigurationDTO.Port), tcp.Port);
+            json.Put(nameof(ITcpConfigurationDTO.Time), tcp.Time);
             TextFile.Save(filesDir, c_tcpJson, json.ToString());
             Core.Instance.UpdateTcpConfiguration(tcp);
         }
@@ -49,7 +49,7 @@ namespace MichaelTCC.Domain.Save
 
         public static ITcpConfigurationDTO ReadTcp(File filesDir)
         {
-            ITcpConfigurationDTO tcp = new TcpConfigurationDTO { Port = 8000 };
+            ITcpConfigurationDTO tcp = new TcpConfigurationDTO { Port = 8000, Time = 100 };
             try
             {
                 string file = TextFile.Read(filesDir, c_tcpJson);
@@ -58,6 +58,7 @@ namespace MichaelTCC.Domain.Save
                     var json = new JSONObject(TextFile.Read(filesDir, c_tcpJson));
                     tcp = new TcpConfigurationDTO();
                     tcp.Port = json.GetInt(nameof(ITcpConfigurationDTO.Port));
+                    tcp.Time = json.GetInt(nameof(ITcpConfigurationDTO.Time));
                 }
 
                 return tcp;

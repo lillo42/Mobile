@@ -9,7 +9,7 @@ namespace MichaelTCC.Domain.Protocol
         internal static string MichaelProtocolToString(IMichaelProtocol michaelProtocol)
         {
             var sb = new StringBuilder();
-            sb.Append(";");
+            sb.Append("S;");
             sb.Append(Convert.ToInt32(michaelProtocol.Up));
             sb.Append(";");
             sb.Append(Convert.ToInt32(michaelProtocol.Down));
@@ -34,7 +34,7 @@ namespace MichaelTCC.Domain.Protocol
             }
 
             sb.Append(Convert.ToInt32(michaelProtocol.Button1));
-            sb.Append(";");
+            sb.Append(";CR");
 
             return sb.ToString();
         }

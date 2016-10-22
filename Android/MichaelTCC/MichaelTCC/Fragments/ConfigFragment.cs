@@ -13,12 +13,14 @@ namespace MichaelTCC.Fragments
     {
         private EditText txtUrl { get; set; }
         private EditText txtPort { get; set; }
+        private EditText txtTempo { get; set; }
         private Button btnSave { get; set; }
 
         private ConfigurationService _configservice;
 
         public ConfigFragment()
         { }
+
         public ConfigFragment(ConfigurationService configservice)
         {
             _configservice = configservice;
@@ -36,6 +38,7 @@ namespace MichaelTCC.Fragments
 
             txtUrl = view.FindViewById<EditText>(Resource.Id.edtUrl);
             txtPort= view.FindViewById<EditText>(Resource.Id.edtPort);
+            txtTempo = view.FindViewById<EditText>(Resource.Id.edtTempo);
             btnSave = view.FindViewById<Button>(Resource.Id.btnSave);
 
             UpdateConfig();
@@ -66,6 +69,7 @@ namespace MichaelTCC.Fragments
         {
             ITcpConfigurationDTO tcpDTO = _configservice.ReadTcp();
             txtPort.Text = tcpDTO.Port.ToString();
+            txtTempo.Text = tcpDTO.Time.ToString();
         }
 
         private void UpdateVideoConfig()
@@ -87,7 +91,15 @@ namespace MichaelTCC.Fragments
                 port = 8000;
                 txtPort.Text = "8000";
             }
-            _configservice.Save(new TcpConfigurationDTO { Port = port });
+
+            int time;
+            if(!int.TryParse(txtTempo.Text,out time))
+            {
+                time = 100;
+                txtTempo.Text = "100";
+            }
+
+            _configservice.Save(new TcpConfigurationDTO { Port = port, Time = time });
         }
     }
 }

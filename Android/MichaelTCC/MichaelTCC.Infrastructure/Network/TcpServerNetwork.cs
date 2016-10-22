@@ -59,39 +59,44 @@ namespace MichaelTCC.Infrastructure.Network
             _cancel.Dispose();
         }
 
+        private void ListeningCliente(CancellationToken cancel)
+        {
+            _tcpClient = AcceptTcpClient();
+            NetworkStream network = _tcpClient.GetStream();
+            while (!cancel.IsCancellationRequested && _tcpClient.Connected)
+            {
+                try
+                {
+                    var listBytes = new List<byte>();
+
+                    int read = network.ReadByte();
+                    listBytes.Add((byte)read);
+                    if (read == 'S')
+                    {
+                        do
+                        {
+                            listBytes.Add((byte)network.ReadByte());
+                        }
+                        while (listBytes.Count < 2 || (listBytes.Count >= 2 && listBytes[listBytes.Count - 2] != 'C' && listBytes[listBytes.Count - 2] != 'R'));
+                    }
+
+                    OnDataReceive?.Invoke(this, listBytes.ToArray());
+                }
+                catch (Exception e)
+                {
+                    _tcpClient = null;
+                    OnError?.Invoke(this, e.ToString());
+                }
+            }
+
+            if (!cancel.IsCancellationRequested && !_tcpClient.Connected)
+                ListeningCliente(cancel);
+        }
+
         private Task Listening(CancellationToken cancel)
         {
             Start();
-            return new TaskFactory().StartNew(() =>
-            {
-                _tcpClient = AcceptTcpClient();
-                NetworkStream network = _tcpClient.GetStream();
-                while (!cancel.IsCancellationRequested)
-                {
-                    try
-                    {
-                        var listBytes = new List<byte>();
-
-                        int read = network.ReadByte();
-                        listBytes.Add((byte)read);
-                        if (read == 'S')
-                        {
-                            do
-                            {
-                                listBytes.Add((byte)network.ReadByte());
-                            }
-                            while (listBytes.Count < 2 || (listBytes.Count >= 2 && listBytes[listBytes.Count - 2] != 'C' && listBytes[listBytes.Count - 2] != 'R'));
-                        }
-
-                        OnDataReceive?.Invoke(this, listBytes.ToArray());
-                    }
-                    catch(Exception e)
-                    {
-                        _tcpClient = null;
-                        OnError?.Invoke(this, e.ToString());
-                    }
-                }
-            });
+            return new TaskFactory().StartNew(() => ListeningCliente(cancel));
         }
 
         public void Dispose()

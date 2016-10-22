@@ -66,38 +66,47 @@ namespace MichaelTCC
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f06000b
-			public const int btnSave = 2131099659;
+			// aapt resource value: 0x7f060010
+			public const int btnSave = 2131099664;
 			
-			// aapt resource value: 0x7f060013
-			public const int btnVideo = 2131099667;
+			// aapt resource value: 0x7f060018
+			public const int btnVideo = 2131099672;
 			
 			// aapt resource value: 0x7f06000a
 			public const int edtPort = 2131099658;
 			
+			// aapt resource value: 0x7f06000f
+			public const int edtTempo = 2131099663;
+			
 			// aapt resource value: 0x7f060005
 			public const int edtUrl = 2131099653;
 			
-			// aapt resource value: 0x7f060014
-			public const int frameLayout = 2131099668;
+			// aapt resource value: 0x7f060019
+			public const int frameLayout = 2131099673;
 			
-			// aapt resource value: 0x7f060010
-			public const int linearLayout1 = 2131099664;
+			// aapt resource value: 0x7f060015
+			public const int linearLayout1 = 2131099669;
 			
-			// aapt resource value: 0x7f060011
-			public const int linearLayout2 = 2131099665;
+			// aapt resource value: 0x7f060016
+			public const int linearLayout2 = 2131099670;
+			
+			// aapt resource value: 0x7f060017
+			public const int linearLayout4 = 2131099671;
+			
+			// aapt resource value: 0x7f06000e
+			public const int llhEdtTempo = 2131099662;
 			
 			// aapt resource value: 0x7f060012
-			public const int linearLayout4 = 2131099666;
-			
-			// aapt resource value: 0x7f06000d
-			public const int llhHalf1 = 2131099661;
+			public const int llhHalf1 = 2131099666;
 			
 			// aapt resource value: 0x7f060006
 			public const int llhPort = 2131099654;
 			
-			// aapt resource value: 0x7f06000c
-			public const int llhPrincipalVideo = 2131099660;
+			// aapt resource value: 0x7f060011
+			public const int llhPrincipalVideo = 2131099665;
+			
+			// aapt resource value: 0x7f06000b
+			public const int llhTempo = 2131099659;
 			
 			// aapt resource value: 0x7f060001
 			public const int llhUrl = 2131099649;
@@ -114,23 +123,29 @@ namespace MichaelTCC
 			// aapt resource value: 0x7f060002
 			public const int llhUrlTxtUrl = 2131099650;
 			
+			// aapt resource value: 0x7f06000c
+			public const int llhtxtTempo = 2131099660;
+			
 			// aapt resource value: 0x7f060000
 			public const int llvMain = 2131099648;
 			
-			// aapt resource value: 0x7f060015
-			public const int menu = 2131099669;
+			// aapt resource value: 0x7f06001a
+			public const int menu = 2131099674;
 			
-			// aapt resource value: 0x7f06000f
-			public const int tbPrincipal = 2131099663;
+			// aapt resource value: 0x7f060014
+			public const int tbPrincipal = 2131099668;
 			
 			// aapt resource value: 0x7f060008
 			public const int txtPort = 2131099656;
 			
+			// aapt resource value: 0x7f06000d
+			public const int txtTempo = 2131099661;
+			
 			// aapt resource value: 0x7f060003
 			public const int txtUrl = 2131099651;
 			
-			// aapt resource value: 0x7f06000e
-			public const int webView1 = 2131099662;
+			// aapt resource value: 0x7f060013
+			public const int webView1 = 2131099667;
 			
 			static Id()
 			{
