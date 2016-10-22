@@ -30,9 +30,9 @@ namespace MichaelTCC.Activities
 
             SetContentView(Resource.Layout.fragment_video);
 
-
-            Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.Fullscreen);
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)SystemUiFlags.Immersive | (int)SystemUiFlags.Fullscreen | (int)SystemUiFlags.HideNavigation | (int)SystemUiFlags.LayoutFullscreen);
 
             if (!string.IsNullOrEmpty(_url))
             {
